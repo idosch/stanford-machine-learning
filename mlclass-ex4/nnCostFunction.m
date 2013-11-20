@@ -62,22 +62,24 @@ Theta2_grad = zeros(size(Theta2));
 %               and Theta2_grad from Part 2.
 %
 
+X = [ones(m, 1), X];  % add column of ones for the bias
+a2 = sigmoid(Theta1 * X'); % hidden layer output values
+a2 = [ones(1, m) ; a2]; % add row of ones for the bias
+a3 = sigmoid(a2' * Theta2');  % output neurons
 
+% recode the lables of y (10, 1, 2, ...) as 1x10 vectors
+y_tag = zeros(m, num_labels);
+for i = 1 : m
+  y_tag(i, y(i)) = 1;
+end
 
+% computing the cost
+for i = 1 : m
+  J += -y_tag(i, :) * log((a3(i, :))') - (ones(1, num_labels) - y_tag(i, :))...
+  * log(ones(num_labels, 1) - a3(i, :)');
+end
 
-
-
-
-
-
-
-
-
-
-
-
-
-
+J /= m;
 
 
 % -------------------------------------------------------------
