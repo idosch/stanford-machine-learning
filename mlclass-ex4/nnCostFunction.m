@@ -88,6 +88,40 @@ reg_term = reg_term * lambda / (2*m);
 
 J += reg_term;
 
+% calculating the derivates of the cost function with respect to the weights
+% using backpropagation
+
+% iterating over all the inputs
+for i = 1 : m
+  % feedforward
+  a_1 = X(i, :);
+  z_2 = a_1 * Theta1';
+  a_2 = sigmoid(z_2);
+  a_2 = [1, a_2]; % adding the bias term
+  z_3 = a_2 * Theta2';
+  a_3 = sigmoid(z_3);
+
+  % calculate output layer error
+  delta_3 = a_3 - y_tag(i, :);
+
+  % calculate hidden layer error
+  temp = delta_3 * Theta2;
+  temp = temp(2 : end);
+  delta_2 = temp .* sigmoidGradient(z_2);
+
+  % calculating gradients
+  Theta2_grad += delta_3' * a_2;
+  Theta1_grad += delta_2' * a_1;
+
+end
+
+Theta2_grad /= m;
+Theta1_grad /= m;
+
+% adding support for regularization
+Theta2_grad(:, 2:end) += (lambda / m) .* Theta2(:, 2:end);
+Theta1_grad(:, 2:end) += (lambda / m) .* Theta1(:, 2:end);
+
 % -------------------------------------------------------------
 
 % =========================================================================
