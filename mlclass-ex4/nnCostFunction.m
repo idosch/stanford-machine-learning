@@ -81,6 +81,12 @@ end
 
 J /= m;
 
+% adding regularization
+reg_term = sum(sumsq(Theta1(:, 2 : size(Theta1, 2)))) + ...
+sum(sumsq(Theta2(:, 2 : size(Theta2, 2))));
+reg_term = reg_term * lambda / (2*m);
+
+J += reg_term;
 
 % -------------------------------------------------------------
 
