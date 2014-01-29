@@ -20,13 +20,11 @@ idx = zeros(size(X,1), 1);
 %
 % Note: You can use a for-loop over the examples to compute this.
 %
-
-
-
-
-
-
-
+warning ("off", "Octave:broadcast");
+for i = 1 : length(X)
+    [~, index] = min(norm(X(i, :) - centroids, "rows"));
+    idx(i) = index;
+end
 % =============================================================
 
 end
